@@ -1,0 +1,10 @@
+FROM python:3.12-slim
+# FROM us-west1-docker.pkg.dev/serverless-runtimes/google-22-full/runtimes/python312  # no pip
+
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt  # --prefer-binary ?
+COPY . .
+# RUN python -m compileall .  # ? -f main.py
+
+CMD ["sh", "-c", "exec gunicorn --bind :${PORT:-8080} --workers 1 --threads 8 --timeout 0 main:app"]
