@@ -1,0 +1,26 @@
+# Build
+FROM us-west1-docker.pkg.dev/serverless-runtimes/google-22/runtimes/python312 AS builder
+WORKDIR /pip
+COPY requirements.txt .
+RUN whoami >&2
+RUN id >&2
+RUN echo "HOME=$HOME" >&2
+RUN echo "USER=$USER" >&2
+# RUN ls -la $HOME >&2
+RUN python -c "import os; print('os.path.expanduser(~):', os.path.expanduser('~'))" >&2
+RUN python -c "import site; print('site.USER_BASE:', site.USER_BASE)" >&2
+RUN python -c "import site; print('site.getusersitepackages():', site.getusersitepackages())" >&2
+
+RUN python -m pip install --user --no-cache-dir -r requirements.txt
+
+# Run
+FROM scratch
+COPY --from=builder /pip/python-packages /opt/python
+COPY . /workspace/
+
+ENV PYTHONPATH=/opt/python/lib/python3.12/site-packages
+ENV PATH=/opt/python/bin:$PATH
+
+WORKDIR /workspace
+
+CMD ["python", "start.py"]

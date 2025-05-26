@@ -1,0 +1,5 @@
+FROM us-west1-docker.pkg.dev/mlb-standings-001/cloud-run-source-deploy/custom-image-example:latest AS custom-files
+
+FROM us-west1-docker.pkg.dev/serverless-runtimes/google-22/runtimes/python312 
+
+COPY --from=custom-files / /custom-files
