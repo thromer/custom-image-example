@@ -1,0 +1,10 @@
+# This works but is painfully slow -- almost 2 minutes compared to less than 20 seconds locally.
+steps:
+  - name: 'docker'
+    args: ['build', '-t', 'us-west1-docker.pkg.dev/mlb-standings-001/artifacts/custom-image-example', '.']
+  - name: 'docker'
+    args: ['push', 'us-west1-docker.pkg.dev/mlb-standings-001/artifacts/custom-image-example']
+## Much too slow
+#  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+#    entrypoint: 'gcloud'
+#    args: ['run', 'deploy', '--image', 'us-west1-docker.pkg.dev/mlb-standings-001/artifacts/custom-image-example', '--base-image', 'us-west1-docker.pkg.dev/serverless-runtimes/google-22/runtimes/python312', '--region', 'us-west1', 'custom-image-example']

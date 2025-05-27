@@ -2,6 +2,8 @@
 FROM us-west1-docker.pkg.dev/serverless-runtimes/google-22/runtimes/python312 AS builder
 WORKDIR /pip
 COPY requirements.txt .
+# Needed for gcloud builds submit with gcr.io/cloud-builders/docker (default)
+# USER root
 RUN python -m pip install --no-cache-dir --prefix=python-packages -r requirements.txt
 
 # Run

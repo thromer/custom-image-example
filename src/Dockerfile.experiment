@@ -1,6 +1,8 @@
 # Build
 FROM us-west1-docker.pkg.dev/serverless-runtimes/google-22/runtimes/python312 AS builder
 WORKDIR /pip
+# Needed for gcloud builds submit with gcr.io/cloud-builders/docker (default)
+USER root
 COPY requirements.txt .
 RUN whoami >&2
 RUN id >&2
@@ -11,7 +13,7 @@ RUN python -c "import os; print('os.path.expanduser(~):', os.path.expanduser('~'
 RUN python -c "import site; print('site.USER_BASE:', site.USER_BASE)" >&2
 RUN python -c "import site; print('site.getusersitepackages():', site.getusersitepackages())" >&2
 
-RUN python -m pip install --user --no-cache-dir -r requirements.txt
+RUN python -m pip install --prefix=python-packages --no-cache-dir -r requirements.txt
 
 # Run
 FROM scratch
