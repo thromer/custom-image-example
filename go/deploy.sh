@@ -5,7 +5,7 @@ set -o pipefail
 shopt -s expand_aliases
 source $HOME/.bash_script_aliases
 
-PROJECT=manage-voip-ms-001
+PROJECT=TODO
 LOCATION=us-west1
 SERVICE=example
 # LOGS_BUCKET=gs://${PROJECT}_build-logs

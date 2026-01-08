@@ -1,3 +1,13 @@
 #!/usr/bin/bash
 
-curl -H "Content-Type: application/json" -H "Authorization: bearer $(gcloud --project=manage-voip-ms-001 auth print-identity-token)" https://example-698932467704.us-west1.run.app
+PROJECT=TODO
+PROJECT_NUMBER=$(gcloud projects describe $PROJECT --format="value(projectNumber)")
+LOCATION=us-west1
+SERVICE=example
+APP=
+URL="https://${SERVICE}-${PROJECT_NUMBER}.${LOCATION}.run.app/${APP}"
+TOKEN="$(gcloud --project=${PROJECT} auth print-identity-token)"
+
+curl -H "Content-Type: application/json" \
+     -H "Authorization: Bearer ${TOKEN}" \
+     "${URL}" -d '{}'
